@@ -1,1 +1,51 @@
- 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f5f5f7;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    sans-serif;
+  color: #1d1d1f;
+}
+
+.container {
+  width: min(90%, 420px);
+  margin: 0 auto;
+  padding-top: 80px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 30px;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+#status {
+  margin-bottom: 35px;
+  color: #6e6e73;
+  font-size: 16px;
+}
+
+#laundryButton {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #1d1d1f;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+#laundryButton:active {
+  transform: scale(0.98);
+}

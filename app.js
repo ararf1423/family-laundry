@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://mstpueweqspgiijpwhfm.supabase.co";
-const SUPABASE_KEY = "ここに今のPublishable keyを入れる";
+const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 
 const button = document.getElementById("laundryButton");
 const status = document.getElementById("status");

@@ -1,3 +1,6 @@
+const SUPABASE_URL = "https://mstpueweqspgiijpwhfm.supabase.co";
+const SUPABASE_KEY = "ここに今のPublishable keyを入れる";
+
 const button = document.getElementById("laundryButton");
 const status = document.getElementById("status");
 
@@ -13,13 +16,13 @@ button.addEventListener("click", async () => {
 
   try {
     const response = await fetch(
-      "YOUR_SUPABASE_URL/rest/v1/laundry_status",
+      `${SUPABASE_URL}/rest/v1/laundry_status`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "apikey": "YOUR_SUPABASE_ANON_KEY",
-          "Authorization": "Bearer YOUR_SUPABASE_ANON_KEY",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
           "Prefer": "return=minimal"
         },
         body: JSON.stringify({
@@ -31,7 +34,7 @@ button.addEventListener("click", async () => {
     );
 
     if (!response.ok) {
-      throw new Error("登録に失敗しました");
+      throw new Error(await response.text());
     }
 
     status.textContent = `${name}さんが洗濯中`;

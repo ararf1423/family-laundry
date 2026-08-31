@@ -4,6 +4,53 @@ const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 const button = document.getElementById("laundryButton");
 const status = document.getElementById("status");
 
+// 洗濯中の人を取得
+async function loadLaundryStatus() {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/laundry_status?status=eq.washing&order=started_at.desc`,
+      {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    const data = await response.json();
+
+    if (data.length === 0) {
+      status.textContent = "現在、洗濯中の人はいません";
+      return;
+    }
+
+    status.innerHTML = data
+      .map(item => {
+        const time = new Date(item.started_at).toLocaleString("ja-JP");
+
+        return `
+          <div>
+            🧺 <strong>${item.user_name}</strong>さんが洗濯中
+            <br>
+            <small>開始：${time}</small>
+          </div>
+        `;
+      })
+      .join("<hr>");
+
+  } catch (error) {
+    console.error(error);
+    status.textContent = "洗濯状況を取得できませんでした";
+  }
+}
+
+
+// 洗濯ボタン
 button.addEventListener("click", async () => {
   const name = prompt("名前を入力してください");
 
@@ -37,8 +84,10 @@ button.addEventListener("click", async () => {
       throw new Error(await response.text());
     }
 
-    status.textContent = `${name}さんが洗濯中`;
     button.textContent = "洗濯中";
+
+    // 保存後、最新の状態を表示
+    await loadLaundryStatus();
 
   } catch (error) {
     console.error(error);
@@ -48,3 +97,7 @@ button.addEventListener("click", async () => {
     button.disabled = false;
   }
 });
+
+
+// ページを開いた時にも取得
+loadLaundryStatus();

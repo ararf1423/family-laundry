@@ -2,33 +2,183 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#ffffff">
+  <title>洗濯通知</title>
 
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#ffffff">
 
-  <title>洗濯物</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #ffffff;
+      color: #222;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 40px;
+    }
+
+    .laundry-button {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: none;
+      background: #f2f2f2;
+      color: #222;
+      font-size: 25px;
+      font-weight: 600;
+
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .laundry-button:active {
+      transform: scale(0.96);
+      background: #e8e8e8;
+    }
+
+    .status {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #777;
+      min-height: 24px;
+    }
+
+    .name-area {
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      max-width: 280px;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .save-name {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #eee;
+      font-size: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <main class="container">
+  <div class="container">
 
-    <h1>洗濯物</h1>
+    <h1>洗濯通知</h1>
 
-    <p id="status">現在：誰も洗濯していません</p>
+    <div class="name-area">
+      <input
+        id="name"
+        type="text"
+        placeholder="名前を入力"
+        maxlength="20"
+      >
 
-    <button id="laundryButton">
-      洗濯する
+      <br>
+
+      <button class="save-name" onclick="saveName()">
+        名前を保存
+      </button>
+    </div>
+
+    <button
+      class="laundry-button"
+      onclick="laundryStart()"
+    >
+      洗濯します
     </button>
 
-  </main>
+    <div id="status" class="status"></div>
 
-  <script src="app.js"></script>
+  </div>
+
+  <script>
+    function saveName() {
+      const name = document.getElementById("name").value.trim();
+
+      if (!name) {
+        alert("名前を入力してください");
+        return;
+      }
+
+      localStorage.setItem("laundry_name", name);
+
+      document.getElementById("status").textContent =
+        `${name}さんとして登録しました`;
+
+      document.getElementById("name").style.display = "none";
+      document.querySelector(".save-name").style.display = "none";
+    }
+
+    function laundryStart() {
+      const name = localStorage.getItem("laundry_name");
+
+      if (!name) {
+        alert("先に名前を登録してください");
+        return;
+      }
+
+      document.getElementById("status").textContent =
+        "洗濯中です…";
+
+      alert("洗濯を開始しました");
+    }
+
+    window.addEventListener("load", () => {
+      const name = localStorage.getItem("laundry_name");
+
+      if (name) {
+        document.getElementById("name").value = name;
+        document.getElementById("name").style.display = "none";
+        document.querySelector(".save-name").style.display = "none";
+
+        document.getElementById("status").textContent =
+          `${name}さんとして登録されています`;
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js")
+        .then(() => {
+          console.log("Service Worker registered");
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    }
+  </script>
 
 </body>
 </html>

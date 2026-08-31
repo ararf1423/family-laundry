@@ -99,5 +99,9 @@ button.addEventListener("click", async () => {
 });
 
 
-// ページを開いた時にも取得
+// ページを開いた時に取得
 loadLaundryStatus();
+
+
+// 5秒ごとに最新状態を確認
+setInterval(loadLaundryStatus, 5000);

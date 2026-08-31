@@ -4,6 +4,10 @@ const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 const button = document.getElementById("laundryButton");
 const status = document.getElementById("status");
 
+// 洗濯中とみなす時間（2時間）
+const LAUNDRY_TIME = 2 * 60 * 60 * 1000;
+
+
 // 洗濯中の人を取得
 async function loadLaundryStatus() {
   try {
@@ -24,12 +28,24 @@ async function loadLaundryStatus() {
 
     const data = await response.json();
 
-    if (data.length === 0) {
+    // 現在時刻
+    const now = Date.now();
+
+    // 2時間以内に開始された洗濯だけ残す
+    const activeLaundry = data.filter(item => {
+      const startedAt = new Date(item.started_at).getTime();
+
+      return now - startedAt < LAUNDRY_TIME;
+    });
+
+    // 洗濯中の人がいない場合
+    if (activeLaundry.length === 0) {
       status.textContent = "現在、洗濯中の人はいません";
       return;
     }
 
-    status.innerHTML = data
+    // 洗濯中の人を表示
+    status.innerHTML = activeLaundry
       .map(item => {
         const time = new Date(item.started_at).toLocaleString("ja-JP");
 

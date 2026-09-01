@@ -1,3 +1,7 @@
+console.log("Notification:", "Notification" in window);
+console.log("ServiceWorker:", "serviceWorker" in navigator);
+console.log("PushManager:", "PushManager" in window);
+
 const SUPABASE_URL = "https://mstpueweqspgiijpwhfm.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 

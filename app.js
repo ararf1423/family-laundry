@@ -1,3 +1,19 @@
+function saveName() {
+  const name = document.getElementById("name").value.trim();
+
+  if (!name) {
+    alert("名前を入力してください");
+    return;
+  }
+
+  localStorage.setItem("laundry_name", name);
+
+  status.textContent =
+    `${name}さんとして登録されています`;
+
+  document.getElementById("name").style.display = "none";
+  document.querySelector(".save-name").style.display = "none";
+}
 const SUPABASE_URL = "https://mstpueweqspgiijpwhfm.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 

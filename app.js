@@ -191,10 +191,16 @@ button.addEventListener("click", async () => {
   // 通知先としてこの端末を登録
   try {
     await registerPush();
-    console.log("通知先の登録に成功しました");
+
+    alert("通知先の登録まで成功しました！");
   } catch (error) {
     console.error("通知登録エラー:", error);
-    alert("通知登録エラー:\n" + error.message);
+
+    alert(
+      "通知登録エラー\n\n" +
+      error.message
+    );
+
     throw error;
   }
 

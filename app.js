@@ -1,3 +1,19 @@
+async function requestNotificationPermission() {
+  if (!("Notification" in window)) {
+    alert("この端末は通知に対応していません");
+    return false;
+  }
+
+  const permission = await Notification.requestPermission();
+
+  if (permission !== "granted") {
+    alert("通知を許可してください");
+    return false;
+  }
+
+  return true;
+}
+
 const SUPABASE_URL = "https://mstpueweqspgiijpwhfm.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5d73Kd01jiE2IDguyNW8MA_70rhJMS5";
 
@@ -68,6 +84,13 @@ async function loadLaundryStatus() {
 
 // 洗濯ボタン
 button.addEventListener("click", async () => {
+   
+  const notificationOK = await requestNotificationPermission();
+
+  if (!notificationOK) {
+     return;
+  }
+   
   const name = prompt("名前を入力してください");
 
   if (!name) {

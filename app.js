@@ -188,11 +188,18 @@ button.addEventListener("click", async () => {
   button.textContent = "送信中...";
 
   try {
-    // 通知先としてこの端末を登録
+  // 通知先としてこの端末を登録
+  try {
     await registerPush();
+    console.log("通知先の登録に成功しました");
+  } catch (error) {
+    console.error("通知登録エラー:", error);
+    alert("通知登録エラー:\n" + error.message);
+    throw error;
+  }
 
-    // 洗濯開始を保存
-    const response = await fetch(
+  // 洗濯開始を保存
+  const response = await fetch(
       `${SUPABASE_URL}/rest/v1/laundry_status`,
       {
         method: "POST",

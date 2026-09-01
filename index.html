@@ -124,61 +124,7 @@
 
   </div>
 
-  <script>
-    function saveName() {
-      const name = document.getElementById("name").value.trim();
-
-      if (!name) {
-        alert("名前を入力してください");
-        return;
-      }
-
-      localStorage.setItem("laundry_name", name);
-
-      document.getElementById("status").textContent =
-        `${name}さんとして登録しました`;
-
-      document.getElementById("name").style.display = "none";
-      document.querySelector(".save-name").style.display = "none";
-    }
-
-    function laundryStart() {
-      const name = localStorage.getItem("laundry_name");
-
-      if (!name) {
-        alert("先に名前を登録してください");
-        return;
-      }
-
-      document.getElementById("status").textContent =
-        "洗濯中です…";
-
-      alert("洗濯を開始しました");
-    }
-
-    window.addEventListener("load", () => {
-      const name = localStorage.getItem("laundry_name");
-
-      if (name) {
-        document.getElementById("name").value = name;
-        document.getElementById("name").style.display = "none";
-        document.querySelector(".save-name").style.display = "none";
-
-        document.getElementById("status").textContent =
-          `${name}さんとして登録されています`;
-      }
-    });
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js")
-        .then(() => {
-          console.log("Service Worker registered");
-        })
-        .catch((error) => {
-          console.error("Service Worker registration failed:", error);
-        });
-    }
-  </script>
+  <script src="app.js"></script>
 
 </body>
 </html>
